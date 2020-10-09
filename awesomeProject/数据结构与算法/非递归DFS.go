@@ -7,12 +7,13 @@ func main() {
 }
 
 func DFS(root persistance.TreeNode) []int {
-	res := make([]int,0)
+	res := make([]int, 0)
 	Stack := persistance.NewSliceEntry()
 	Stack.Push(root)
 	for !Stack.IsEmpty() {
-		var node persistance.TreeNode = Stack.Top()
+		var node = Stack.Top().(persistance.TreeNode)
 		Stack.Pop()
-		if node.R
+		_ = node
 	}
+	return res
 }

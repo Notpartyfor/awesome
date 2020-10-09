@@ -46,8 +46,8 @@ func isBalanced(root *TreeNode) bool {
 	if !isBalanced(root.Left) || !isBalanced(root.Right) {
 		return false
 	}
-	leftH := maxDepth(root.Left) + 1;
-	rightH := maxDepth(root.Right) + 1;
+	leftH := maxDepth(root.Left) + 1
+	rightH := maxDepth(root.Right) + 1
 	if abs(leftH-rightH) > 1 {
 		return false
 	}
@@ -219,4 +219,49 @@ func deleteMinNode(root *TreeNode) *TreeNode {
 // todo 完全二叉树的节点个数 (优化
 // 如果二叉树中除了叶子结点，每个结点的度都为 2，则此二叉树称为满二叉树
 // 如果二叉树中除去最后一层节点为满二叉树，且最后一层的结点依次从左到右分布，则此二叉树被称为完全二叉树
+func (t *TreeNode) CountNodes() int {
+	return countNodes(t)
+}
 
+func countNodes(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	left := countLevels(root.Left)
+	right := countLevels(root.Right)
+	if left == right {
+		// 左右子树高度相等，证明左子树为满子树，接下来就对右子树查找
+		return countNodes(root.Right) + 1<<left
+	} else {
+		return countNodes(root.Left) + 1<<right
+	}
+}
+
+func countLevels(root *TreeNode) int {
+	level := 0
+	for root != nil {
+		level += 1
+		root = root.Left
+	}
+	return level
+}
+
+// todo 剪枝
+// 只有0和1两种值，剪掉0的枝条
+
+func (t *TreeNode) PruneTree() *TreeNode {
+	return pruneTree(t)
+}
+
+func pruneTree(node *TreeNode) *TreeNode {
+	if node == nil {
+		return nil
+	}
+	node.Left = pruneTree(node.Left)
+	node.Right = pruneTree(node.Right)
+	if node.Left == nil && node.Right == nil && node.Val == 0 {
+		return nil
+	}
+	return node
+}

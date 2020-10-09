@@ -22,8 +22,6 @@ type Test struct {
 	CID  uint   `gorm:"column:cid"`
 }
 
-
-
 func main() {
 	dsn := "root:123456@tcp(127.0.0.1:3306)/gorm?charset=utf8mb4&parseTime=True&loc=Local"
 	dbGorm, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -59,14 +57,11 @@ func main() {
 
 	fmt.Println(ProjectCategoryFilter(classIds))
 
-	any := make([]*interface{},0)
+	any := make([]*interface{}, 0)
 	joinParams := "tests INNER JOIN classify_categories ON tests.cid = classify_categories.id"
 	if err := dbColla.Where("classify_categories.name LIKE ?", KeyWord).Joins(joinParams).Find(&any).Error; err != nil {
 		fmt.Println(err)
 	}
-
-
-
 
 }
 
@@ -77,6 +72,7 @@ func ProjectCategoryFilter(categories []*ClassifyCategory) []uint {
 	if err != nil {
 		panic("failed to connect database")
 	}
+
 	if err := dbColla.Model(ClassifyCategory{}).Find(&classIds).Error; err != nil {
 		fmt.Println(err)
 	}

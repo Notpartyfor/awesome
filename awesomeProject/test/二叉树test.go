@@ -22,23 +22,27 @@ func main() {
 			},
 		},
 		Right: &persistance.TreeNode{
-			Val: 7,
+			Val: 0,
 			Left: &persistance.TreeNode{
 				Val:   6,
 				Left:  nil,
 				Right: nil,
 			},
 			Right: &persistance.TreeNode{
-				Val:   9,
-				Left:  nil,
-				Right: nil,
+				Val:  0,
+				Left: nil,
+				Right: &persistance.TreeNode{
+					Val:   0,
+					Left:  nil,
+					Right: nil,
+				},
 			},
 		},
 	}
 	fmt.Println(root)
 	//fmt.Println(root.IsBST())
 	//fmt.Println(root.SearchBST(2))
-	fmt.Println(root.DeleteNode(3))
-
+	//fmt.Println(root.DeleteNode(3))
+	//fmt.Println(root.CountNodes())
+	//fmt.Println(root.PruneTree())
 }
-
