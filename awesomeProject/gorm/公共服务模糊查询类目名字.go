@@ -43,28 +43,35 @@ func main() {
 	//
 	//dbGorm.Create(test)
 
-	KeyWord := fmt.Sprintf("%s%s%s", "%", "类", "%")
+	KeyWord := fmt.Sprintf("%s%s%s", "%", "保留", "%")
 	test := &Test{}
 	if err := dbGorm.First(&test).Error; err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(test)
 
+	// 从类别中检验出符合模糊查询的ID
 	classIds := make([]*ClassifyCategory, 0)
 	if err := dbColla.Select("id", "parent_id").Where("name LIKE ?", KeyWord).Model(ClassifyCategory{}).Find(&classIds).Error; err != nil {
 		fmt.Println(err)
 	}
-
+	// 筛选出符合project分类的ID
+	for _, Id := range classIds {
+		fmt.Println(Id.ID)
+	}
 	fmt.Println(ProjectCategoryFilter(classIds))
 
-	any := make([]*interface{}, 0)
-	joinParams := "tests INNER JOIN classify_categories ON tests.cid = classify_categories.id"
-	if err := dbColla.Where("classify_categories.name LIKE ?", KeyWord).Joins(joinParams).Find(&any).Error; err != nil {
-		fmt.Println(err)
-	}
+	//any := make([]*interface{}, 0)
+	//joinParams := "tests INNER JOIN classify_categories ON tests.cid = classify_categories.id"
+	//if err := dbColla.Where("classify_categories.name LIKE ?", KeyWord).Joins(joinParams).Find(&any).Error; err != nil {
+	//	fmt.Println(err)
+	//}
+
+	// todo 再根据这些Id去和CID，CCID对比就行了(加到or参数里面)
 
 }
 
+// 这个应该只支持三层？
 func ProjectCategoryFilter(categories []*ClassifyCategory) []uint {
 	classIds := make([]*ClassifyCategory, 0)
 	dsn := "root:123456@tcp(127.0.0.1:3306)/asm_collaborative?charset=utf8mb4&parseTime=True&loc=Local"
