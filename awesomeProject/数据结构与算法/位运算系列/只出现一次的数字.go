@@ -13,6 +13,7 @@ func main() {
 
 	nums2 := []int{1, 3, 2, 3, 2, 1, 3, 2, 1, 5, 5, 4, 5, 6, 4, 4}
 	fmt.Println(singleNumber2(nums2))
+	fmt.Println(singleNumber3(nums2))
 }
 
 func singleNumber1(nums []int) int {
@@ -67,4 +68,15 @@ func singleNumber2(nums []int) int {
 		res |= (number) % 3 << i
 	}
 	return res
+}
+
+// 用三进制去弄，巨佬答案
+
+func singleNumber3(nums []int) int {
+	a, b := 0, 0
+	for _, v := range nums {
+		b = b ^ v & ^a
+		a = a ^ v & ^b
+	}
+	return b
 }
