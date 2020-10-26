@@ -30,7 +30,7 @@ func main() {
 func binarySearch(nums []int, des int) int {
 	left, right := 0, len(nums)-1
 	for left <= right {
-		mid := left + (right-left)/2
+		mid := (left + right) / 2
 		if des == nums[mid] {
 			return mid
 		} else if des < nums[mid] {

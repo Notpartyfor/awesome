@@ -27,6 +27,21 @@ func Min(a, b int) int {
 	return a
 }
 
+func MinInSlice(nums []int) int {
+	min := nums[0]
+	for _, v := range nums {
+		min = Min(min, v)
+	}
+	return min
+}
+
+func Abs(num int) int {
+	if num < 0 {
+		return -1 * num
+	}
+	return num
+}
+
 func StrInStr(source, target string) bool {
 	if strings.Index(source, target) == -1 {
 		return false
