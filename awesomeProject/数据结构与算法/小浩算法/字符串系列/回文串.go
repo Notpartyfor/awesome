@@ -11,7 +11,7 @@ func main() {
 	str = strings.ToLower(str)
 	fmt.Println(str)
 	reg := regexp.MustCompile("[^0-9a-z]")
-	str = reg.ReplaceAllString(str,"")
+	str = reg.ReplaceAllString(str, "")
 	fmt.Println(str)
 
 	l := 0
@@ -25,5 +25,3 @@ func main() {
 		r--
 	}
 }
-
-

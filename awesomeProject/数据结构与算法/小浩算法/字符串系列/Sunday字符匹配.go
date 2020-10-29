@@ -26,12 +26,12 @@ func Sunday(origin, aim string) int {
 	aimIndex := 0
 
 	for aimIndex < len(aim) {
-		if originIndex > len(origin) - 1 {
+		if originIndex > len(origin)-1 {
 			return -1
 		}
 		if origin[originIndex] == aim[aimIndex] {
-			originIndex ++
-			aimIndex ++
+			originIndex++
+			aimIndex++
 		} else {
 			nextCharIndex := originIndex - aimIndex + len(aim)
 			if nextCharIndex < len(origin) {

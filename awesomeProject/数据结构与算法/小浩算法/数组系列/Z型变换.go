@@ -7,7 +7,7 @@ import (
 
 func main() {
 	str := "LEETCODEISHIRING"
-	fmt.Println(convert(str,3))
+	fmt.Println(convert(str, 3))
 }
 func convert(str string, n int) string {
 	if n == 1 {
@@ -16,9 +16,9 @@ func convert(str string, n int) string {
 
 	b := []rune(str)
 	l := len(b)
-	res := make([]string,l)
-	period := 2 * n - 2
-	for i := 0 ; i < l ; i ++ {
+	res := make([]string, l)
+	period := 2*n - 2
+	for i := 0; i < l; i++ {
 		mod := i % period
 
 		if mod < n {
@@ -27,5 +27,5 @@ func convert(str string, n int) string {
 			res[period-mod] += string(b[i])
 		}
 	}
-	return strings.Join(res,"")
+	return strings.Join(res, "")
 }
