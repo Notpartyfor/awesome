@@ -23,6 +23,7 @@ func intersect(nums1 []int, nums2 []int) []int {
 	for _, v := range nums2 {
 		if m[v] > 0 {
 			m[v] -= 1
+			// 顺便将nums2 承载交集，作为结果数组返回
 			nums2[k] = v
 			k++
 		}
@@ -30,6 +31,7 @@ func intersect(nums1 []int, nums2 []int) []int {
 	return nums2[:k]
 }
 
+// 如果数组已经排序好，可以优化
 func intersectSoft(nums1 []int, nums2 []int) []int {
 	i, j, k := 0, 0, 0
 	for i < len(nums1) && j < len(nums2) {

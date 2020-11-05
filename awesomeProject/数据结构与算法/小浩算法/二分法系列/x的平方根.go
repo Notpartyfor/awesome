@@ -7,18 +7,19 @@ import "fmt"
 // 没有小数的话，查找区间就很好确认了
 
 func main() {
-	fmt.Println(mySqrt(25))
+	fmt.Println(myIntSqrt(145))
 }
 
-func mySqrt(x int) int {
+func myIntSqrt(x int) int {
 	if x == 1 {
 		return 1
 	}
-
+	// 左右边界
 	left := 0.0
 	right := float64(x)
 
 	for left <= right {
+		// 二分
 		mid := (left + right) / 2
 		if mid*mid == float64(x) {
 			return int(mid)

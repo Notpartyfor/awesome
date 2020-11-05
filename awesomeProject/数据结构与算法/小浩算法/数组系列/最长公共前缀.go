@@ -31,14 +31,18 @@ func longestCommonPrefixMine(strs []string) string {
 	if len(strs) == 1 {
 		return strs[0]
 	}
+	// 用strs[0]作为存储公共前缀
 	for i := 1; i < len(strs); i++ {
+		// 往后逐个数组对比
 		for j := len(strs[0]); j > 0; j-- {
 			if strings.HasPrefix(strs[i], strs[0][:j]) {
+				// 修改strs[0]
 				strs[0] = strs[0][:j]
 				break
 			}
 		}
 	}
+	// 如果没有变化
 	if strs[0] == temp {
 		return ""
 	}
@@ -49,8 +53,10 @@ func longestCommonPrefix(strs []string) string {
 	if len(strs) < 1 {
 		return ""
 	}
+	// 用strs[0]作为存储公共前缀
 	prefix := strs[0]
 	for _, k := range strs {
+		// 如果没包含这个子字符串则会返回-1
 		for strings.Index(k, prefix) != 0 {
 			if len(prefix) == 0 {
 				return ""

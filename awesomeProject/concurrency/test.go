@@ -1,20 +1,23 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 func main() {
-	timer4 := time.NewTimer(2 * time.Second)
-	go func() {
-	<-timer4.C
-	fmt.Println("定时器执行了")
-	}()
-	<- time.After(3 * time.Second)
-	b := timer4.Stop()
-	if b {
-	fmt.Println("timer4已经关闭")
+	for i := range random(100) {
+		fmt.Println(i)
 	}
 }
 
+func random(n int) <-chan int {
+	c := make(chan int)
+	go func() {
+		defer close(c)
+		for i := 0; i < n; i++ {
+			select {
+			case c <- 0:
+			case c <- 1:
+			}
+		}
+	}()
+	return c
+}

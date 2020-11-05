@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	nums := 2
+	nums := 90
 	printNumbers(nums)
 }
 

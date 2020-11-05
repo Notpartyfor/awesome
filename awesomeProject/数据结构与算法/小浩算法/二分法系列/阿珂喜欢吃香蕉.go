@@ -43,12 +43,12 @@ func binarySearch(nums []int, des int) int {
 }
 
 func minEatingSpeed(piles []int, H int) int {
-	left := 1 // 假设要吃的最小速度为1
-	right := common.MaxInSlice(piles)
+	left := 1                         // 假设要吃的最小速度为1
+	right := common.MaxInSlice(piles) // 假设要吃的最大速度为最多的香蕉数
 
 	for left < right {
 		mid := (left + right) / 2
-		if canEat(piles, mid, H) { // 所用时间过长，要加速
+		if !canEat(piles, mid, H) { // 所用时间过长，要加速
 			left = mid + 1
 		} else {
 			right = mid
@@ -62,9 +62,12 @@ func minEatingSpeed(piles []int, H int) int {
 func canEat(piles []int, speed, H int) bool {
 	sum := 0
 	for _, v := range piles {
-		sum += (v + speed - 1) / speed
-		// 向上取整小技巧：加了一个H，其实就相当于商加了1，所以加1后再除以H（向下取整）就等于原先的向上取整了
+		//sum += (v + speed - 1) / speed
+		// 要用多少个小时
+		sum += (v-1)/speed + 1
+		// 向上取整小技巧
 
 	}
-	return sum > H
+	// 如果比H个小时少，证明行
+	return sum < H
 }

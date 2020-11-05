@@ -8,13 +8,16 @@ func main() {
 
 func rotateString(A, B string) bool {
 	N := len(A)
+	// 长度不一肯定不行
 	if len(B) != N {
 		return false
 	}
+	// =-=啊这
 	if N == 0 {
 		return true
 	}
 
+	//
 	shifts := make([]int, N+1)
 	for i, _ := range shifts {
 		shifts[i] = 1

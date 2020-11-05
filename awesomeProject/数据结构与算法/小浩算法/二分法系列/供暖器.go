@@ -23,8 +23,9 @@ func findRadius(houses, heaters []int) int {
 	res := 0
 	n := len(heaters)
 	sort.Ints(heaters)
+	// 就是对比每个house跟heaters的最小距离，找到其中最大的
 	for _, house := range houses {
-		// 二分法找不小于house的第一个值
+		// 二分法找不小于house的第一个值，因为如果houses很多，而heaters很少，逐个去找就会很浪费效率
 		// 其实也就是找到house后面一个暖气站的下标
 		left, right := 0, n
 		//
