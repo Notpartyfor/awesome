@@ -43,14 +43,15 @@ func main() {
 	// 一般的preload可以联系起来
 	users := make([]*User, 0)
 	//dbGorm.Find(&users)
-	//dbGorm.Preload("Orders").Find(&users)
+	dbGorm.Where(1).Preload("Orders").Find(&users)
 
-	// 自定义条件的Preload
+	//自定义条件的Preload
 	//dbGorm.Preload("Orders", orderConditions).Find(&users)
-	newsIDs := make([]interface{}, 0)
-	if err := dbGorm.Raw("SELECT `id` FROM `users` WHERE `username` = ?", "二号").Scan(&newsIDs).Error; err != nil {
-		fmt.Println(err)
-	}
+	//newsIDs := make([]interface{}, 0)
+	//// raw
+	//if err := dbGorm.Raw("SELECT `id` FROM `users` WHERE `username` = ?", "二号").Scan(&newsIDs).Error; err != nil {
+	//	fmt.Println(err)
+	//}
 
 	for _, v := range users {
 		fmt.Println(v.Username)

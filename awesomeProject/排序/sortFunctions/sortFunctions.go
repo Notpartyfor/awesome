@@ -14,9 +14,14 @@ import (
 // 针对所有的元素重复以上的步骤，除了最后一个。
 //
 // 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
+
+// 个人理解：从头到尾两两比较，直到最后，肯定是最大或者最小，然后不要最后的，再来
+// 感觉跟堆排序有点类似
 func BubbleSort(arr []int) []int {
 	length := len(arr)
+	// 要比较的次数
 	for i := 0; i < length; i++ {
+		// 进行比较
 		for j := 0; j < length-1-i; j++ {
 			if arr[j] > arr[j+1] {
 				arr[j], arr[j+1] = arr[j+1], arr[j]
@@ -29,6 +34,9 @@ func BubbleSort(arr []int) []int {
 // todo 基数排序
 // 基数排序是一种 非比较型 整数排序算法，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较。
 // 由于整数也可以表达字符串（比如名字或日期）和特定格式的浮点数，所以基数排序也不是只能使用于整数。
+
+// 个人理解： 个位数大小排一次，拿翻出去，十位数大小又排一次， 又拿翻出去，直到最高位
+// 甘样的话，每进出一次就排好一个位
 
 func RadixSort(arr []int) []int {
 	Digit := 0
@@ -77,6 +85,8 @@ func RadixSort(arr []int) []int {
 //
 // 重复第二步，直到所有元素均排序完毕
 
+// 个人理解，稳最细，丢头，跟住再稳最细，再丢头，一路稳
+// 跟冒泡的大概是，冒泡是边稳边交换，选择是稳完一圈，确认最细了再交换
 func SelectionSort(arr []int) []int {
 	length := len(arr)
 	// 从第一个开始，设min
@@ -105,6 +115,7 @@ func SelectionSort(arr []int) []int {
 
 // （如果待插入的元素与有序序列中的某个元素相等，则将待插入元素插入到相等元素的后面。）
 
+// 个人理解：打牌甘咯，你摸到只牌要执正佢就要同前面的牌比咯，又系边稳边交换噶
 func InsertionSort(arr []int) []int {
 	for i := range arr {
 		preIndex := i - 1
@@ -169,7 +180,7 @@ func ShellSort(arr []int) []int {
 //
 // 将另一序列剩下的所有元素直接复制到合并序列尾。
 
-func mergeSort(arr []int) []int {
+func MergeSort(arr []int) []int {
 	length := len(arr)
 	if length < 2 {
 		return arr
@@ -178,7 +189,7 @@ func mergeSort(arr []int) []int {
 	middle := length / 2
 	left := arr[0:middle]
 	right := arr[middle:]
-	return merge(mergeSort(left), mergeSort(right))
+	return merge(MergeSort(left), MergeSort(right))
 }
 
 func merge(left []int, right []int) []int {
@@ -222,7 +233,7 @@ func merge(left []int, right []int) []int {
 // 因为在每次的迭代（iteration）中，它至少会把一个元素摆到它最后的位置去。
 
 // 小浩算法
-func quickSortXH(arr []int) []int {
+func QuickSortXH(arr []int) []int {
 	return _quickSort(arr, 0, len(arr)-1)
 }
 
@@ -378,12 +389,13 @@ func Quick3Sort(a []int, left int, right int) {
 //
 //重复步骤 2，直到堆的尺寸为 1。
 
-func heapSort(arr []int) []int {
+// 个人理解 弄出最大/最小堆，然后堆首尾交换，尾巴肯定是最大/最小的，然后规模-1，把尾巴去掉，重复这个过程
+func HeapSort(arr []int) []int {
 	arrLen := len(arr)
 	// 初始化能塞满arr元素进去的最大堆
-	buildMaxHeap(arr, arrLen)
+	buildHeap(arr)
 	for i := arrLen - 1; i >= 0; i-- {
-		// 排序后交换首尾，此时尾巴肯定是最大/最小
+		// 排序后交换首尾，此时巴肯定是最大/最小（取决于你怎么排）
 		swap(arr, 0, i)
 		// 将堆的规模-1
 		arrLen -= 1
@@ -393,24 +405,153 @@ func heapSort(arr []int) []int {
 	return arr
 }
 
-func buildMaxHeap(arr []int, arrLen int) {
+func buildHeap(arr []int) {
+	arrLen := len(arr)
+	// 从最后一个非叶子结点开始，排成最大堆
 	for i := arrLen / 2; i >= 0; i-- {
 		heapify(arr, i, arrLen)
 	}
 }
 
 func heapify(arr []int, i, arrLen int) {
+	// 如果存在，left就是i的左结点，right就是i的右结点
 	left := 2*i + 1
 	right := 2*i + 2
 	largest := i
+	// 比较大小，取这三个之中最大值的位置
 	if left < arrLen && arr[left] > arr[largest] {
 		largest = left
 	}
 	if right < arrLen && arr[right] > arr[largest] {
 		largest = right
 	}
+	// 如果不是i，就进行交换，并对左(右)结点取最大值，递归调用使得原来i为根节点的堆都排序成功
 	if largest != i {
 		swap(arr, i, largest)
 		heapify(arr, largest, arrLen)
 	}
+}
+
+// todo 计数排序
+// 计数排序的核心在于将输入的数据值转化为键 存储在额外开辟的数组空间中。
+// 作为一种线性时间复杂度的排序，计数排序要求输入的数据必须是有确定范围的整数。
+//
+// 算法步骤
+// 找出原数组中元素值最大的，记为max。
+//
+//  创建一个新数组count，其长度是max加1，其元素默认值都为0。
+//
+//  遍历原数组中的元素，以原数组中的元素作为count数组的索引，以原数组中的元素出现次数作为count数组的元素值。
+//
+//  创建结果数组result，起始索引index。
+
+//  遍历count数组，找出其中元素值大于0的元素，将其对应的索引作为元素值填充到result数组中去
+//  每处理一次，count中的该元素值减1，直到该元素值不大于0，依次处理count中剩下的元素。
+//
+//  返回结果数组result。
+
+// 个人理解：感觉像是存到map里面，然后按顺序吐出来
+func CountingSort(arr []int) []int {
+	max := common.MaxInSlice(arr)
+
+	count := make([]int, max+1)
+
+	for _, v := range arr {
+		count[v] += 1
+	}
+
+	result := make([]int, 0)
+
+	for i, v := range count {
+		for v > 0 {
+			// append会复制整个数组，其实不如用一个指针
+			result = append(result, i)
+			v -= 1
+		}
+	}
+
+	return result
+}
+func CountingSortXH(arr []int, maxValue int) []int {
+	bucketLen := maxValue + 1
+	bucket := make([]int, bucketLen) // 初始为0的数组
+
+	sortedIndex := 0
+	length := len(arr)
+
+	for i := 0; i < length; i++ {
+		bucket[arr[i]] += 1
+	}
+
+	for j := 0; j < bucketLen; j++ {
+		for bucket[j] > 0 {
+			arr[sortedIndex] = j
+			sortedIndex += 1
+			bucket[j] -= 1
+		}
+	}
+
+	return arr
+}
+
+// todo 桶排序
+// 桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键就在于这个映射函数的确定。
+// 为了使桶排序更加高效，我们需要做到这两点：
+//
+//在额外空间充足的情况下，尽量增大桶的数量
+//使用的映射函数能够将输入的 N 个数据均匀的分配到 K 个桶中
+//同时，对于桶中元素的排序，选择何种比较排序算法对于性能的影响至关重要。
+//
+//#1. 什么时候最快
+//当输入的数据可以均匀的分配到每一个桶中。
+//
+//#2. 什么时候最慢
+//当输入的数据被分配到了同一个桶中。
+
+// 个人理解：确实是计数排序的升级版，桶子不止是一个数了，桶子大小，桶子里面的排序也能选择了
+func BucketSort(arr []int, bucketSize int) []int {
+	if len(arr) == 0 {
+		return arr
+	}
+
+	// 确认范围，最大最小值
+	minValue, maxValue := arr[0], arr[0]
+	for _, v := range arr {
+		if v > maxValue {
+			maxValue = v
+		} else if v < minValue {
+			minValue = v
+		}
+	}
+
+	bucketCount := (maxValue-minValue)/bucketSize + 1
+	buckets := make([][]int, bucketCount)
+	//for i := range buckets {
+	//	buckets[i] = make([]int, bucketSize)
+	//}
+
+	// 利用映射函数将数据分配到各个桶中
+	// 这里随便冲了？只用和minValue的差值作为分配和插入的依据
+	for i := 0; i < len(arr); i++ {
+		index := (arr[i] - minValue) / bucketSize
+		buckets[index] = append(buckets[index], arr[i])
+	}
+
+	// 分配完之后呢就开始对每个有数据的桶进行排序，然后就可以输出到结果数组，或者为了省空间直接输出到旧数组里面
+	// 输出数组索引
+	arrIndex := 0
+	for i := range buckets {
+		// 排除掉没有数据的桶
+		if buckets[i] == nil {
+			continue
+		}
+		// 随便找个排序函数
+		buckets[i] = InsertionSort(buckets[i])
+		// 排完然后弄到输出数组里
+		for _, v := range buckets[i] {
+			arr[arrIndex] = v
+			arrIndex++
+		}
+	}
+	return arr
 }
