@@ -5,7 +5,6 @@ package main
 
 import "fmt"
 
-
 func generate1(ch chan int) {
 	for i := 2; ; i++ {
 		ch <- i // Send 'i' to channel 'ch'.
@@ -21,10 +20,10 @@ func filter1(in, out chan int, prime int) {
 }
 func main() {
 	ch := make(chan int) // Create a new channel.
-	go generate1(ch)      // Start generate() as a goroutine.
+	go generate1(ch)     // Start generate() as a goroutine.
 	for {
 		prime := <-ch
-		fmt.Print(prime, " ")
+		fmt.Print(prime, "\n")
 		ch1 := make(chan int)
 		go filter1(ch, ch1, prime)
 		ch = ch1

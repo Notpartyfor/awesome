@@ -1,5 +1,18 @@
 package main
 
+import "fmt"
+
+func main() {
+	LRU := NewLRUCache(2)
+	LRU.PUT(1, 11)
+	LRU.PUT(2, 22)
+	LRU.PUT(3, 33)
+	fmt.Println(LRU.Get(1))
+	fmt.Println(LRU.Get(2))
+	fmt.Println(LRU.Get(3))
+}
+
+// 用双向链表存
 type LinkNode struct {
 	key, val  int
 	pre, next *LinkNode
@@ -28,6 +41,7 @@ func NewLRUCache(capacity int) LRUCache {
 
 func (l *LRUCache) Get(key int) int {
 	cache := l.m
+	// 缓存击中
 	if node, ok := cache[key]; ok {
 		l.MoveToHead(node)
 		return node.val
@@ -52,8 +66,8 @@ func (l *LRUCache) PUT(key, val int) {
 		}
 		// 如果满了，需要删掉最少使用的节点
 		if len(cache) == l.cap {
-			delete(cache, tail.key)
-			l.DeleteNode(tail)
+			delete(l.m, tail.pre.key)
+			l.DeleteNode(tail.pre)
 		}
 
 		l.AddNode(v)

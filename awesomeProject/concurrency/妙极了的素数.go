@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 )
-func generate() chan int {
+
+func generate() chan int { // 生成2，3，4，5，6...
 	ch := make(chan int)
 	go func() {
 		for i := 2; ; i++ {
@@ -28,8 +29,8 @@ func sieve() chan int {
 	go func() {
 		ch := generate()
 		for {
-			prime := <-ch
-			ch = filter(ch, prime)
+			prime := <-ch          // 拿2，3，4，5，6...
+			ch = filter(ch, prime) // 将ch变为已筛选某个数的ch
 			out <- prime
 		}
 	}()

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	str := "abcabcbb"
+	str := "tmmzuxt"
 	fmt.Println(lengthOfLongestSubstring1(str))
 	fmt.Println(lengthOfLongestSubstring2(str))
 
