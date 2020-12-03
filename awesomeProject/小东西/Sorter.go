@@ -1,9 +1,9 @@
 package main
 
 import (
-	"awesomeProject/排序"
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 )
 
@@ -82,23 +82,22 @@ type PersonArray struct {
 
 func (p *PersonArray) Len() int           { return len(p.data) }
 func (p *PersonArray) Less(i, j int) bool { return p.data[i].firstName < p.data[j].firstName }
-func (p *PersonArray) Swap(i, j int)      { p.data[i], p.data[j] = p.data[j], p.data[i]}
+func (p *PersonArray) Swap(i, j int)      { p.data[i], p.data[j] = p.data[j], p.data[i] }
 
 func Persons() {
-	zhangsan := Person{firstName:"张", lastName:"三"}
-	lisi := Person{firstName:"李", lastName:"四"}
-	wangwu := Person{firstName:"王", lastName:"五"}
-	data := []*Person{&zhangsan, &wangwu ,&lisi}
-	a := PersonArray{data:data}
+	zhangsan := Person{firstName: "张", lastName: "三"}
+	lisi := Person{firstName: "李", lastName: "四"}
+	wangwu := Person{firstName: "王", lastName: "五"}
+	data := []*Person{&zhangsan, &wangwu, &lisi}
+	a := PersonArray{data: data}
 	sort.Sort(&a)
 	if !sort.IsSorted(&a) {
 		panic("fail")
 	}
 	for _, d := range a.data {
-		fmt.Printf("%s%s    ", d.firstName,d.lastName)
+		fmt.Printf("%s%s    ", d.firstName, d.lastName)
 	}
 }
-
 
 func main() {
 	ints()

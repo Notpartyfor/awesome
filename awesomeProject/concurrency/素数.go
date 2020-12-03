@@ -19,13 +19,21 @@ func filter1(in, out chan int, prime int) {
 	}
 }
 func main() {
+	sum := 0
 	ch := make(chan int) // Create a new channel.
 	go generate1(ch)     // Start generate() as a goroutine.
 	for {
 		prime := <-ch
+
+		if prime > 2 {
+			break
+		}
+		sum += 1
 		fmt.Print(prime, "\n")
+
 		ch1 := make(chan int)
 		go filter1(ch, ch1, prime)
 		ch = ch1
 	}
+	fmt.Println(sum)
 }
