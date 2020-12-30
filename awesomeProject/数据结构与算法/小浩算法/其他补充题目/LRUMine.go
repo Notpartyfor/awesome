@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Node struct {
 	key, val  int
@@ -9,6 +12,7 @@ type Node struct {
 
 type LRU struct {
 	m          map[int]*Node
+	lock       sync.Mutex
 	cap        int
 	head, tail *Node
 }
@@ -39,7 +43,10 @@ func NewLRUMine(cap int) *LRU {
 }
 
 func (l *LRU) Get(key int) int {
+	// defer l.lock.Unlock() 会损失掉一部分性能
+	// 代价就是详细点写
 	// 缓存击中
+	l.lock.Lock()
 	if n, ok := l.m[key]; ok {
 		// 将他放到链表首位
 		l.MoveToHead(n)

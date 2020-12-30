@@ -28,7 +28,8 @@ type hp struct{ sort.IntSlice }
 var count [26]int
 
 // 实现堆的
-func (h hp) Less(i, j int) bool  { return count[h.IntSlice[i]] > count[h.IntSlice[j]] } // 要用>，因为用的是最大堆
+// Less 是为了重写，原本的是IntSlice的方法 { return p[i] < p[j] }
+func (h hp) Less(i, j int) bool  { return count[h.IntSlice[i]] > count[h.IntSlice[j]] }
 func (h *hp) Push(v interface{}) { h.IntSlice = append(h.IntSlice, v.(int)) }
 func (h *hp) Pop() interface{}   { a := h.IntSlice; v := a[len(a)-1]; h.IntSlice = a[:len(a)-1]; return v }
 func (h *hp) push(v int)         { heap.Push(h, v) }

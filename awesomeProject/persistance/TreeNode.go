@@ -76,10 +76,11 @@ func abs(a int) int {
 }
 
 // todo 验证是否为搜索二叉树 binary search tree
+// 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；
+// 若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值；
+// 任意节点的左、右子树也分别为二叉查找树；
+// 没有键值相等的节点。
 func (t *TreeNode) IsBST() bool {
-	if t == nil {
-		return true
-	}
 	return isBST(t, math.MinInt64, math.MaxInt64)
 }
 
@@ -93,7 +94,7 @@ func isBST(root *TreeNode, min, max int) bool {
 	return isBST(root.Left, min, root.Val) && isBST(root.Right, root.Val, max)
 }
 
-// todo 查找搜索二叉树
+// todo 在搜索二叉树中进行搜索
 func (t *TreeNode) SearchBST(target int) *TreeNode {
 	return searchBST2(t, target)
 }
@@ -143,20 +144,22 @@ func deleteNode2(root *TreeNode, target int) *TreeNode {
 		return root
 	}
 	// 已经找到，现在root就是要被删除的节点
+	// 如果只存在一颗子数，那么就直接返回子数（相当于删除了root）
 	if root.Left == nil {
 		return root.Right
 	}
 	if root.Right == nil {
 		return root.Left
 	}
+	// 左右子树都存在
 	maxNode := root.Left
 	for maxNode.Right != nil {
-		//查找先驱 (右子树的最小
+		//查找前驱 (找到左子树最大的，将其替换成root
 		maxNode = maxNode.Right
 	}
-	// 替换后继
+	// 替换
 	root.Val = maxNode.Val
-	// 删除后继（也就是最小的
+	// 删除被替换成root的
 	root.Left = deleteMaxNode(root.Left)
 	return root
 }

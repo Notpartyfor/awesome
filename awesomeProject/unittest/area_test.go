@@ -12,6 +12,8 @@ func TestSetSomething(t *testing.T) {
 	box.SetName("bgbiao")
 	if box.GetName() == "bgbiao" {
 		fmt.Println("the rectangular name's result is ok")
+	} else {
+		t.Error("not ok")
 	}
 }
 
@@ -19,7 +21,9 @@ func TestSetSomething(t *testing.T) {
 func TestGetSomething(t *testing.T) {
 	box := Newbox()
 	box.SetSize(3, 4, 5)
-	if box.GetVolume() == 60 {
+	if box.GetVolume() == 50 {
 		fmt.Println("the rectangular volume's result is ok")
+	} else {
+		t.Error("not ok")
 	}
 }
